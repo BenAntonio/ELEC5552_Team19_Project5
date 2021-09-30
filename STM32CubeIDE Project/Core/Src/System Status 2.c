@@ -94,7 +94,7 @@ int main(void)
   {
     /* USER CODE END WHILE */
 	  delay_ms(500);
-	  GPIO_ResetBits(GPIOF,GPIO_PIN_Greennumber);
+	  GPIO_ResetBits(GPIOF,GPIO_PIN_51);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -154,7 +154,7 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
-	 GPIO_ResetBits(GPIOF,GPIO_PIN_Rednumber);
+	 GPIO_ResetBits(GPIOF,GPIO_PIN_61);
 	 delay_ms(500);
   }
   /* USER CODE END Error_Handler_Debug */

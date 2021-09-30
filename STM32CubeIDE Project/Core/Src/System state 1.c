@@ -68,7 +68,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 	delay_int(168);
 	LED_Init();
-	GPIO_ResetBits(GPIOF,GPIO_PIN_Rednumber);
+	GPIO_ResetBits(GPIOF,GPIO_PIN_61);
 
   /* USER CODE END 1 */
 
@@ -98,9 +98,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  GPIO_SetBits(GPIOF,GPIO_PIN_Rednumber);
+	  GPIO_SetBits(GPIOF,GPIO_PIN_61);
 	  delay_ms(500);
-	  GPIO_ResetBits(GPIOF,GPIO_PIN_Greennumber);
+	  GPIO_ResetBits(GPIOF,GPIO_PIN_51);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
