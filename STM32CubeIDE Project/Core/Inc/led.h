@@ -6,7 +6,7 @@
 
 
 #define LED0 PFout(51)
-#define LED0 PFout(61)
+#define LED1 PFout(61)
 
 void LED_Init(void);
 #endif 
