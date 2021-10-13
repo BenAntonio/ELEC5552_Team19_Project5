@@ -5,40 +5,23 @@
 #include "delay.h"  
 #include "lcd.h"  
 #include "string.h"  
-//////////////////////////////////////////////////////////////////////////////////	 
-//±¾³ÌĞòÖ»¹©Ñ§Ï°Ê¹ÓÃ£¬Î´¾­×÷ÕßĞí¿É£¬²»µÃÓÃÓÚÆäËüÈÎºÎÓÃÍ¾
-//ALIENTEK STM32F407¿ª·¢°å
-//USBH-USR ´úÂë	   
-//ÕıµãÔ­×Ó@ALIENTEK
-//¼¼ÊõÂÛÌ³:www.openedv.com
-//´´½¨ÈÕÆÚ:2014/7/23
-//°æ±¾£ºV1.0
-//°æÈ¨ËùÓĞ£¬µÁ°æ±Ø¾¿¡£
-//Copyright(C) ¹ãÖİÊĞĞÇÒíµç×Ó¿Æ¼¼ÓĞÏŞ¹«Ë¾ 2009-2019
-//All rights reserved									  
-//*******************************************************************************
-//ĞŞ¸ÄĞÅÏ¢
-//ÎŞ
-////////////////////////////////////////////////////////////////////////////////// 	   
- 
-//±íÊ¾USBÁ¬½Ó×´Ì¬
-//0,Ã»ÓĞÁ¬½Ó;
-//1,ÒÑ¾­Á¬½Ó;
-vu8 bDeviceState=0;		//Ä¬ÈÏÃ»ÓĞÁ¬½Ó  
+
+
+vu8 bDeviceState=0;		  
 
 
 extern USB_OTG_CORE_HANDLE USB_OTG_Core_dev;
 extern void USBH_Msg_Show(u8 msgx);
-u8 USB_FIRST_PLUGIN_FLAG=0;	//USBµÚÒ»´Î²åÈë±êÖ¾,Èç¹ûÎª1,ËµÃ÷ÊÇµÚÒ»´Î²åÈë
+u8 USB_FIRST_PLUGIN_FLAG=0;
 
-//USB OTG ÖĞ¶Ï·şÎñº¯Êı
-//´¦ÀíËùÓĞUSBÖĞ¶Ï
+//USB OTG 
+//
 void OTG_FS_IRQHandler(void)
 { 
 	USBH_OTG_ISR_Handler(&USB_OTG_Core_dev);
 }  
 
-//USB HOST ÓÃ»§»Øµ÷º¯Êı.
+//USB HOST 
 USBH_Usr_cb_TypeDef USR_Callbacks =
 {
   USBH_USR_Init,
@@ -61,7 +44,7 @@ USBH_Usr_cb_TypeDef USR_Callbacks =
   USBH_USR_UnrecoveredError
 };
  
-//USB HOST ³õÊ¼»¯ 
+//USB HOST  
 void USBH_USR_Init(void)
 {
 	printf("USB OTG FS MSC Host\r\n");
@@ -69,46 +52,46 @@ void USBH_USR_Init(void)
 	printf("  USB Host Library v2.1.0\r\n\r\n");
 	
 }
-//¼ì²âµ½UÅÌ²åÈë
-void USBH_USR_DeviceAttached(void)//UÅÌ²åÈë
+//
+void USBH_USR_DeviceAttached(void)
 { 
-	printf("¼ì²âµ½USBÉè±¸²åÈë!\r\n");
+	printf("æ£€æµ‹åˆ°USBè®¾å¤‡æ’å…¥!\r\n");
 }
-//¼ì²âµ½UÅÌ°Î³ö
-void USBH_USR_DeviceDisconnected (void)//UÅÌÒÆ³ı
+/
+void USBH_USR_DeviceDisconnected (void)/
 { 
-	printf("USBÉè±¸°Î³ö!\r\n");
-	bDeviceState=0;	//USBÉè±¸°Î³öÁË
+	printf("USB out!\r\n");
+	bDeviceState=0;	
 	USBH_Msg_Show(0);
 }  
-//¸´Î»´Ó»ú
+
 void USBH_USR_ResetDevice(void)
 {
-	printf("¸´Î»Éè±¸...\r\n");
+	printf("...\r\n");
 }
-//¼ì²âµ½´Ó»úËÙ¶È
-//DeviceSpeed:´Ó»úËÙ¶È(0,1,2 / ÆäËû)
+//
+//DeviceSpeed:(0,1,2 / )
 void USBH_USR_DeviceSpeedDetected(uint8_t DeviceSpeed)
 {
 	if(DeviceSpeed==HPRT0_PRTSPD_HIGH_SPEED)
 	{
-		printf("¸ßËÙ(HS)USBÉè±¸!\r\n");
+		printf("(HS)USB!\r\n");
  	}  
 	else if(DeviceSpeed==HPRT0_PRTSPD_FULL_SPEED)
 	{
-		printf("È«ËÙ(FS)USBÉè±¸!\r\n"); 
+		printf("(FS)USB!\r\n"); 
 	}
 	else if(DeviceSpeed==HPRT0_PRTSPD_LOW_SPEED)
 	{
-		printf("µÍËÙ(LS)USBÉè±¸!\r\n");  
+		printf("(LS)USB!\r\n");  
 	}
 	else
 	{
-		printf("Éè±¸´íÎó!\r\n");  
+		printf("error!\r\n");  
 	}
 }
-//¼ì²âµ½´Ó»úµÄÃèÊö·û
-//DeviceDesc:Éè±¸ÃèÊö·ûÖ¸Õë
+
+//DeviceDesc:
 void USBH_USR_Device_DescAvailable(void *DeviceDesc)
 { 
 	USBH_DevDesc_TypeDef *hs;
@@ -116,12 +99,12 @@ void USBH_USR_Device_DescAvailable(void *DeviceDesc)
 	printf("VID: %04Xh\r\n" , (uint32_t)(*hs).idVendor); 
 	printf("PID: %04Xh\r\n" , (uint32_t)(*hs).idProduct); 
 }
-//´Ó»úµØÖ··ÖÅä³É¹¦
+
 void USBH_USR_DeviceAddressAssigned(void)
 {
-	printf("´Ó»úµØÖ··ÖÅä³É¹¦!\r\n");   
+	printf("success!\r\n");   
 }
-//ÅäÖÃÃèÊö·û»ñÓĞĞ§
+
 void USBH_USR_Configuration_DescAvailable(USBH_CfgDesc_TypeDef * cfgDesc,
                                           USBH_InterfaceDesc_TypeDef *itfDesc,
                                           USBH_EpDesc_TypeDef *epDesc)
@@ -130,93 +113,83 @@ void USBH_USR_Configuration_DescAvailable(USBH_CfgDesc_TypeDef * cfgDesc,
 	id = itfDesc;   
 	if((*id).bInterfaceClass==0x08)
 	{
-		printf("¿ÉÒÆ¶¯´æ´¢Æ÷Éè±¸!\r\n"); 
+		printf("removable!\r\n"); 
 	}else if((*id).bInterfaceClass==0x03)
 	{
-		printf("HID Éè±¸!\r\n"); 
+		printf("HID !\r\n"); 
 	}    
 }
-//»ñÈ¡µ½Éè±¸Manufacturer String
+//Manufacturer String
 void USBH_USR_Manufacturer_String(void *ManufacturerString)
 {
 	printf("Manufacturer: %s\r\n",(char *)ManufacturerString);
 }
-//»ñÈ¡µ½Éè±¸Product String 
+//Product String 
 void USBH_USR_Product_String(void *ProductString)
 {
 	printf("Product: %s\r\n",(char *)ProductString);  
 }
-//»ñÈ¡µ½Éè±¸SerialNum String 
+//SerialNum String 
 void USBH_USR_SerialNum_String(void *SerialNumString)
 {
 	printf("Serial Number: %s\r\n",(char *)SerialNumString);    
 } 
-//Éè±¸USBÃ¶¾ÙÍê³É
+
 void USBH_USR_EnumerationDone(void)
 { 
-	printf("Éè±¸Ã¶¾ÙÍê³É!\r\n\r\n");    
+	printf("finish!\r\n\r\n");    
 } 
-//ÎŞ·¨Ê¶±ğµÄUSBÉè±¸
+//
 void USBH_USR_DeviceNotSupported(void)
 { 
-	USBH_Msg_Show(3);//ÎŞ·¨Ê¶±ğµÄUSBÉè±¸
-	//printf("ÎŞ·¨Ê¶±ğµÄUSBÉè±¸!\r\n\r\n");    
+	USBH_Msg_Show(3);
+	//printf("!\r\n\r\n");    
 }  
-//µÈ´ıÓÃ»§ÊäÈë°´¼ü,Ö´ĞĞÏÂÒ»²½²Ù×÷
+//
 USBH_USR_Status USBH_USR_UserInput(void)
 { 
-	printf("Ìø¹ıÓÃ»§È·ÈÏ²½Öè!\r\n");
-	bDeviceState=1;//USBÉè±¸ÒÑ¾­Á¬½Ó³É¹¦
+	printf("!\r\n");
+	bDeviceState=1;
 	return USBH_USR_RESP_OK;
 } 
-//USB½Ó¿ÚµçÁ÷¹ıÔØ
+
 void USBH_USR_OverCurrentDetected (void)
 {
-	printf("¶Ë¿ÚµçÁ÷¹ı´ó!!!\r\n");
+	printf("!!!\r\n");
 }  
-//ÖØĞÂ³õÊ¼»¯
+//
 void USBH_USR_DeInit(void)
 {
-	printf("ÖØĞÂ³õÊ¼»¯!!!\r\n");
+	printf("!!!\r\n");
 }
-//ÎŞ·¨»Ö¸´µÄ´íÎó!!  
+//
 void USBH_USR_UnrecoveredError (void)
 {
-	printf("ÎŞ·¨»Ö¸´µÄ´íÎó!!!\r\n\r\n");	
+	printf("!!!\r\n\r\n");	
 }
-//////////////////////////////////////////////////////////////////////////////////////////
-//ÏÂÃæÁ½¸öº¯Êı,ÎªALIENTEKÌí¼Ó,ÒÔ·ÀÖ¹USBËÀ»ú
 
-//USBÃ¶¾Ù×´Ì¬ËÀ»ú¼ì²â,·ÀÖ¹USBÃ¶¾ÙÊ§°Üµ¼ÖÂµÄËÀ»ú
-//phost:USB_HOST½á¹¹ÌåÖ¸Õë
-//·µ»ØÖµ:0,Ã»ÓĞËÀ»ú
-//       1,ËÀ»úÁË,Íâ²¿±ØĞëÖØĞÂÆô¶¯USBÁ¬½Ó.
 u8 USBH_Check_EnumeDead(USBH_HOST *phost)
 {
 	static u16 errcnt=0;
-	//Õâ¸ö×´Ì¬,Èç¹û³ÖĞø´æÔÚ,ÔòËµÃ÷USBËÀ»úÁË.
+	
 	if(phost->gState==HOST_CTRL_XFER&&(phost->EnumState==ENUM_IDLE||phost->EnumState==ENUM_GET_FULL_DEV_DESC))
 	{
 		errcnt++;
-		if(errcnt>2000)//ËÀ»úÁË
+		if(errcnt>2000)//
 		{ 
 			errcnt=0;
-			RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_OTG_FS,ENABLE);//USB OTG FS ¸´Î»
+			RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_OTG_FS,ENABLE);//USB OTG FS 
 			delay_ms(5);
-			RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_OTG_FS,DISABLE);	//¸´Î»½áÊø  
+			RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_OTG_FS,DISABLE);	 
 			return 1;
 		} 
 	}else errcnt=0;
 	return 0;
 } 
-//USB HIDÍ¨ĞÅËÀ»ú¼ì²â,·ÀÖ¹USBÍ¨ĞÅËÀ»ú(ÔİÊ±½öÕë¶Ô:DTERR,¼´Data toggle error)
-//pcore:USB_OTG_Core_dev_HANDLE½á¹¹ÌåÖ¸Õë
-//phidm:HID_Machine_TypeDef½á¹¹ÌåÖ¸Õë 
-//·µ»ØÖµ:0,Ã»ÓĞËÀ»ú
-//       1,ËÀ»úÁË,Íâ²¿±ØĞëÖØĞÂÆô¶¯USBÁ¬½Ó.
+
 u8 USBH_Check_HIDCommDead(USB_OTG_CORE_HANDLE *pcore,HID_Machine_TypeDef *phidm)
 {
- 	if(pcore->host.HC_Status[phidm->hc_num_in]==HC_DATATGLERR)//¼ì²âµ½DTERR´íÎó,Ö±½ÓÖØÆôUSB.
+ 	if(pcore->host.HC_Status[phidm->hc_num_in]==HC_DATATGLERR)//
 	{  
 		return 1;
 	}
@@ -224,30 +197,29 @@ u8 USBH_Check_HIDCommDead(USB_OTG_CORE_HANDLE *pcore,HID_Machine_TypeDef *phidm)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-//USB¼üÅÌÊó±êÊı¾İ´¦Àí
 
-//Êó±ê³õÊ¼»¯
+
+
 void USR_MOUSE_Init	(void)
 {
- 	USBH_Msg_Show(2);		//USB Êó±ê
-	USB_FIRST_PLUGIN_FLAG=1;//±ê¼ÇµÚÒ»´Î²åÈë
+ 	USBH_Msg_Show(2);		//USB
+	USB_FIRST_PLUGIN_FLAG=1;
 }
-//¼üÅÌ³õÊ¼»¯
+//é”®ç›˜åˆå§‹åŒ–
 void  USR_KEYBRD_Init(void)
 { 
- 	USBH_Msg_Show(1);		//USB ¼üÅÌ
-	USB_FIRST_PLUGIN_FLAG=1;//±ê¼ÇµÚÒ»´Î²åÈë
+ 	USBH_Msg_Show(1);		
+	USB_FIRST_PLUGIN_FLAG=1;
 }
 
-//ÁãÊ±Êı×é,ÓÃÓÚ´æ·ÅÊó±ê×ø±ê/¼üÅÌÊäÈëÄÚÈİ(4.3ÆÁ,×î´ó¿ÉÒÔÊäÈë2016×Ö½Ú)
+
 __align(4) u8 tbuf[2017]; 
 
-//USBÊó±êÊı¾İ´¦Àí
-//data:USBÊó±êÊı¾İ½á¹¹ÌåÖ¸Õë
+
 void USR_MOUSE_ProcessData(HID_MOUSE_Data_TypeDef *data)
 {  
 	static signed short x,y,z; 
-	if(USB_FIRST_PLUGIN_FLAG)//µÚÒ»´Î²åÈë,½«Êı¾İÇåÁã
+	if(USB_FIRST_PLUGIN_FLAG)
 	{
 		USB_FIRST_PLUGIN_FLAG=0;
 		x=y=z=0;
@@ -280,8 +252,7 @@ void USR_MOUSE_ProcessData(HID_MOUSE_Data_TypeDef *data)
 } 
 
 
-//USB¼üÅÌÊı¾İ´¦Àí
-//data:USBÊó±êÊı¾İ½á¹¹ÌåÖ¸Õë
+
 void  USR_KEYBRD_ProcessData (uint8_t data)
 { 
 	static u16 pos; 
@@ -289,29 +260,29 @@ void  USR_KEYBRD_ProcessData (uint8_t data)
 	static u16 maxinputchar;
 	
 	u8 buf[4];
-	if(USB_FIRST_PLUGIN_FLAG)//µÚÒ»´Î²åÈë,½«Êı¾İÇåÁã
+	if(USB_FIRST_PLUGIN_FLAG)/
 	{
 		USB_FIRST_PLUGIN_FLAG=0;
-		endx=((lcddev.width-30)/8)*8+30;		//µÃµ½endxÖµ
-		endy=((lcddev.height-220)/16)*16+220;	//µÃµ½endyÖµ
+		endx=((lcddev.width-30)/8)*8+30;		
+		endy=((lcddev.height-220)/16)*16+220;	
 		maxinputchar=((lcddev.width-30)/8);
-		maxinputchar*=(lcddev.height-220)/16;	//µ±Ç°LCD×î´ó¿ÉÒÔÏÔÊ¾µÄ×Ö·ûÊı.
+		maxinputchar*=(lcddev.height-220)/16;	
  		pos=0; 
 	}
 	POINT_COLOR=BLUE;
 	sprintf((char*)buf,"%02X",data);
-	LCD_ShowString(30+56,180,200,16,16,buf);//ÏÔÊ¾¼üÖµ	 
+	LCD_ShowString(30+56,180,200,16,16,buf);
 	if(data>=' '&&data<='~')
 	{
 		tbuf[pos++]=data;
-		tbuf[pos]=0;		//Ìí¼Ó½áÊø·û. 
-		if(pos>maxinputchar)pos=maxinputchar;//×î´óÊäÈëÕâÃ´¶à
-	}else if(data==0X0D)	//ÍË¸ñ¼ü
+		tbuf[pos]=0;		 
+		if(pos>maxinputchar)pos=maxinputchar;
+	}else if(data==0X0D)	
 	{
 		if(pos)pos--;
-		tbuf[pos]=0;		//Ìí¼Ó½áÊø·û.  
+		tbuf[pos]=0;		
 	}
-	if(pos<=maxinputchar)	//Ã»ÓĞ³¬¹ıÏÔÊ¾Çø
+	if(pos<=maxinputchar)	
 	{
 		LCD_Fill(30,220,endx,endy,WHITE);
 		LCD_ShowString(30,220,endx-30,endy-220,16,tbuf);
