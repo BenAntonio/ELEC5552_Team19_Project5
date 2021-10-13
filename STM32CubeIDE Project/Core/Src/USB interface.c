@@ -95,12 +95,12 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	u32 t; 
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-	delay_init(168);  
-	uart_init(115200);	
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//Set the system interrupt priority to 2
+	delay_init(168);  //Initializes the delay function
+	uart_init(115200);	//Initialize the baud rate of the serial port
 	LED_Init();
 	POINT_COLOR=GREEN;
-  	USBH_Init(&USB_OTG_Core_dev,USB_OTG_FS_CORE_ID,&USB_Host,&HID_cb,&USR_Callbacks); 
+  	USBH_Init(&USB_OTG_Core_dev,USB_OTG_FS_CORE_ID,&USB_Host,&HID_cb,&USR_Callbacks); // Initialize the host state
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -130,24 +130,24 @@ int main(void)
   {
     /* USER CODE END WHILE */
 	  USBH_Process(&USB_OTG_Core_dev, &USB_Host);
-	  		if(bDeviceState==1)
+	  		if(bDeviceState==1)//Determines whether the connection is established
 	  		{ 
-	  			if(USBH_Check_HIDCommDead(&USB_OTG_Core_dev,&HID_Machine))
+	  			if(USBH_Check_HIDCommDead(&USB_OTG_Core_dev,&HID_Machine))// Check whether the USB HID communication is normal
 	  			{ 	    
-	  				USBH_HID_Reconnect();
+	  				USBH_HID_Reconnect();// Reconnect
 	  			}				
 	  			
-	  		}else	
+	  		}else //If the connection is not established
 	  		{
-	  			if(USBH_Check_EnumeDead(&USB_Host))	 
+	  			if(USBH_Check_EnumeDead(&USB_Host))	 //Detect whether the USB HOST has crashed, and reinitialize it if so
 	  			{ 	    
-	  				USBH_HID_Reconnect();
+	  				USBH_HID_Reconnect();// Reconnect
 	  			}			
 	  		}
 	  		t++;
 	  		if(t==200000)
 	  		{
-	  			LED0=!LED0;
+	  			LED0=!LED0;//LED state change
 	  			t=0;
 	  		}
     /* USER CODE BEGIN 3 */
