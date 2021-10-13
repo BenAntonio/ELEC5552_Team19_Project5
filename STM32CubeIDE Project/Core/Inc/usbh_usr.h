@@ -57,10 +57,10 @@
 
 
 extern  USBH_Usr_cb_TypeDef USR_Callbacks;
-//表示USB连接状态
-//0,没有连接;
-//1,已经连接;
-extern vu8 bDeviceState;		//默认没有连接  
+//
+//
+//
+extern vu8 bDeviceState;	 
 
 
 /**
@@ -94,7 +94,7 @@ void USBH_USR_DeInit(void);
 void USBH_USR_DeviceNotSupported(void);
 void USBH_USR_UnrecoveredError(void);
 
-//自行添加的函数
+//
 u8 USBH_Check_EnumeDead(USBH_HOST *phost);
 u8 USBH_Check_HIDCommDead(USB_OTG_CORE_HANDLE *pcore,HID_Machine_TypeDef *phidm);
 
