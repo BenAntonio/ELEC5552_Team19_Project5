@@ -1,0 +1,15 @@
+NRF24L01.c:32:6:CSselect	8	static
+NRF24L01.c:37:6:CSunselect	8	static
+NRF24L01.c:42:6:CEenable	8	static
+NRF24L01.c:47:6:CEdisable	8	static
+NRF24L01.c:52:6:nrf24WrReg	24	static
+NRF24L01.c:67:6:nrf24WrRegMulti	32	static
+NRF24L01.c:83:9:nrf24RdReg	24	static
+NRF24L01.c:99:6:nrf24RdRegMulti	24	static
+NRF24L01.c:114:6:nrfsendCmd	16	static
+NRF24L01.c:124:6:nrfInit	8	static
+NRF24L01.c:142:6:nrfTxMode	24	static
+NRF24L01.c:160:9:nrfTransmit	24	static
+NRF24L01.c:189:6:nrfRxMode	24	static
+NRF24L01.c:217:9:dataAvailability	24	static
+NRF24L01.c:232:6:nrfReceive	24	static
